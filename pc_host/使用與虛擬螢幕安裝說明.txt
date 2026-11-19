@@ -1,0 +1,28 @@
+===================================================================
+🖥️ UniDisplay 跨平台第二螢幕（PC 連接 iPad / iPhone / Android）使用說明
+===================================================================
+
+【一、如何在 Windows 10 / 11 生出「延伸第二螢幕」？】
+如果您的 PC 目前只有接一台實體螢幕，直接投射會是「複製主螢幕」。
+若要讓 Windows 多出一塊可拖曳視窗過去的「延伸第二螢幕（Virtual Display）」：
+
+1. 下載微軟簽章的開源虛擬螢幕驅動「Virtual-Display-Driver (IDD)」：
+   官方發布頁：https://github.com/VirtualDisplay/Virtual-Display-Driver/releases
+2. 下載最新版的安裝包（.exe）並執行安裝。
+3. 安裝後按 Win + P 選擇「延伸（Extend）」，Windows「顯示設定」裡就會多出第 2 顆螢幕，
+   且可自由調整成 iPad（如 2360x1640）或 Galaxy Z Fold 的解析度！
+
+-------------------------------------------------------------------
+【二、Type-C 一線直連方式（免 Wi-Fi、超低延遲）】
+
+🍎 A. 連接 iPad / iPhone（LiveContainer 版）：
+1. 將 UniDisplay_iOS_LiveContainer.ipa 匯入 iPad 的 LiveContainer 並啟動 App。
+2. 用 Type-C 線將 iPad 插上 Windows PC（電腦需安裝過 iTunes 或 Microsoft Store 的「Apple 裝置 / Apple Devices」以提供底層 usbmuxd 服務）。
+3. 在 PC 雙擊「啟動第二螢幕發送端_Windows.bat」，點「🔍 掃描 Type-C 裝置」，
+   選中「🍎 [Type-C 直連] iPad / iPhone」，按下「🚀 開始投射第二螢幕」即可！
+
+🤖 B. 連接 Android 手機 / 平板（APK 版）：
+1. 安裝 UniDisplay_Android_arm64.apk 並打開 App。
+2. 方法 1（ADB USB 通道）：開啟手機 USB 偵錯，插上 Type-C 線，PC 發送端會自動透過 ADB 轉發埠 23456。
+3. 方法 2（免開 USB 偵錯）：插上 Type-C 線後開啟手機的「USB 網路共享（USB Tethering）」，
+   在 PC 發送端輸入手機畫面顯示的 IP（如 192.168.42.129）按下開始投射即可！
