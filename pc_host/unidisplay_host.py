@@ -19,18 +19,27 @@ import subprocess
 import sys
 import threading
 import time
-import tkinter as tk
-from tkinter import ttk, messagebox
 
-# 嘗試載入高速截圖與影像壓縮套件（啟動批次檔會自動安裝 mss 與 Pillow）
+try:
+    import tkinter as tk
+    from tkinter import ttk, messagebox
+    HAS_TK = True
+except ImportError:
+    tk = None
+    ttk = None
+    messagebox = None
+    HAS_TK = False
+
+# 嘗試載入高速截圖與影像壓縮套件
 try:
     import mss
+except ImportError:
+    mss = None
+
+try:
     from PIL import Image
 except ImportError:
-    print("正在自動安裝必要的高速畫面擷取套件 (mss, pillow)...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "mss", "pillow"])
-    import mss
-    from PIL import Image
+    Image = None
 
 
 VIEWER_PORT = 23456
@@ -187,7 +196,7 @@ class AdbHelper:
 # 3. 單頁式 PC 主機控制台 (GUI) 與高速串流核心
 # ==============================================================================
 class UniDisplayHostGUI:
-    def __init__(self, root: tk.Tk):
+    def __init__(self, root):
         self.root = root
         self.root.title("UniDisplay 跨平台第二螢幕 — PC 發送端 (iOS / Android Type-C 一線通)")
         self.root.geometry("680x580")
@@ -624,6 +633,14 @@ class UniDisplayHostGUI:
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = UniDisplayHostGUI(root)
-    root.mainloop()
+    if mss is None or Image is None:
+        print("正在自動安裝必要的高速畫面擷取套件 (mss, pillow)...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "mss", "pillow"])
+        import mss
+        from PIL import Image
+    if HAS_TK:
+        root = tk.Tk()
+        app = UniDisplayHostGUI(root)
+        root.mainloop()
+    else:
+        print("此環境未安裝 tkinter，已載入核心通訊模組 (UsbmuxdClient / AdbHelper)。")
